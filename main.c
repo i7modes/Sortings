@@ -8,6 +8,9 @@ void InsertionSort(int[], int);
 void SelectionSort(int[], int);
 void mergeSort(int[], int, int);
 void shellSort(int[], int);
+void quickSort(int[], int, int);
+int partition(int[], int, int);
+void swap(int *, int *);
 
 int main()
 {
@@ -48,6 +51,15 @@ int main()
     printArray(arr4, n4);
     printf("\n");
 
+    int arr5[] = {10, 7, 8, 9, 1, 5};
+    int n5 = sizeof(arr5) / sizeof(arr5[0]);
+    printf("Original array for Quick Sort: ");
+    printArray(arr5, n5);
+    quickSort(arr5, 0, n5 - 1);
+    printf("Sorted array with Quick Sort: ");
+    printArray(arr5, n5);
+    printf("\n");
+
     return 0;
 }
 
@@ -61,8 +73,10 @@ void printArray(int arr[], int size)
 }
 
 // INSERTION SORT
-// Worst and avarge case = O(n^2)
-// Best case = O(n)
+
+// Best case runtime O(n)
+// Average case runtime O(n^2)
+// Worst case runtime O(n^2)
 
 void InsertionSort(int arr[], int n)
 {
@@ -80,7 +94,11 @@ void InsertionSort(int arr[], int n)
     }
 }
 
-// SELECTION SORT = O(n^2)
+// SELECTION SORT
+
+// Best case runtime O(n^2)
+// Average case runtime O(n^2)
+// Worst case runtime O(n^2)
 
 void SelectionSort(int arr[], int n)
 {
@@ -97,7 +115,11 @@ void SelectionSort(int arr[], int n)
     }
 }
 
-// MERGE SORT = O(n log n)
+// MERGE SORT
+
+// Best case runtime O(n log n)
+// Average case runtime O(n log n)
+// Worst case runtime O(n log n)
 
 void merge(int arr[], int l, int m, int r)
 {
@@ -169,8 +191,10 @@ void mergeSort(int arr[], int l, int r)
 }
 
 // SHELL SORT
-// Worst case = O(n^2)
-// Best and avarge case = O(n log n)
+
+// Best case runtime O(n log n)
+// Average case runtime O(n log n)
+// Worst case runtime O(n^2)
 
 void shellSort(int arr[], int n)
 {
@@ -192,4 +216,54 @@ void shellSort(int arr[], int n)
             }
         }
     }
+}
+
+// QUICK SORT
+
+// Best case runtime O(n log n)
+// Average case runtime O(n log n)
+// Worst case runtime O(n^2)
+
+// The main function that implements QuickSort
+// arr[] --> Array to be sorted,
+// low  --> Starting index,
+// high  --> Ending index
+void quickSort(int arr[], int low, int high)
+{
+    if (low < high)
+    {
+        // pi is partitioning index, arr[p] is now at right place
+        int pi = partition(arr, low, high);
+
+        // Recursively sort elements before partition and after partition
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+// Partition function that takes the last element as pivot, places the pivot element at its correct position in sorted array, and places all smaller elements to the left of the pivot and all greater elements to the right of the pivot
+int partition(int arr[], int low, int high)
+{
+    int pivot = arr[high]; // pivot
+    int i = (low - 1);     // Index of smaller element
+
+    for (int j = low; j < high; j++)
+    {
+        // If current element is smaller than or equal to pivot
+        if (arr[j] <= pivot)
+        {
+            i++; // increment index of smaller element
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
+
+// Helper function to swap two elements
+void swap(int *a, int *b)
+{
+    int t = *a;
+    *a = *b;
+    *b = t;
 }
